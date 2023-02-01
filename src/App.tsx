@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from "react";
+import { FC, useState, useEffect, useCallback } from "react";
 import { Input, Card } from "./components";
 import { WeatherState } from "./types";
 import { debounce } from "lodash";
@@ -8,10 +8,10 @@ export const App: FC = () => {
   const [weatherData, setWeatherData] = useState<WeatherState>({ data: null })
 
   useEffect(() => {
-    myDeb();
+    myDebCallback(searchCity);
   }, [searchCity])
 
-  const getWeatherData = () => {
+  const getWeatherData = (searchCity: string) => {
     fetch(`https://api.openweathermap.org/data/2.5/weather?appid=0f11ed7c3a60f593c7dc3911ce35d06a&q=${searchCity}&units=metric`)
       .then((res) => {
         if (res.ok) {
@@ -20,7 +20,8 @@ export const App: FC = () => {
       })
       .then((data) => setWeatherData({...weatherData, data: data}));
   }
-  const myDeb = debounce(getWeatherData, 2_000)
+  const myDeb = debounce(getWeatherData, 2_000);
+  const myDebCallback = useCallback((searchCity: string) => myDeb(searchCity), []);
 
   return (
     <div className="App">

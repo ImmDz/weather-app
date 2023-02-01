@@ -14,7 +14,7 @@ export const Card: FC<CardProps> = ({ title, data }) => {
                 <header>
                     <h1>{data?.sys.country}</h1>
                     <p>Temp: {data?.main.temp}</p>
-                    <p>Feel like: {data?.main.feels_like}</p>
+                    <p>Feels like: {data?.main.feels_like}</p>
                 </header>
                 <main>
                     <div className={css.main_info}>
