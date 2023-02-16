@@ -1,30 +1,28 @@
 import { FC } from "react";
-import { WeatherData } from "../../types";
+import { getWeather } from "../../store/weather/selectors";
+import { useSelector } from "react-redux";
 import css from "./styles.module.css";
 
-interface CardProps {
-    title: string;
-    data: WeatherData | null;
-}
 
-export const Card: FC<CardProps> = ({ title, data }) => {
+export const Card: FC = () => {
+    const weather = useSelector(getWeather);
+
     return (
         <div className={css.container}>
             <>
                 <header>
-                    <h1>{data?.sys.country}</h1>
-                    <p>Temp: {data?.main.temp}</p>
-                    <p>Feels like: {data?.main.feels_like}</p>
+                    <h1>{weather?.name}</h1>
+                    <p>Temp: {weather?.main.temp}</p>
+                    <p>Feels like: {weather?.main.feels_like}</p>
                 </header>
                 <main>
                     <div className={css.main_info}>
-                        <p>Humidity: {data?.main.humidity}</p>
-                        <p>Pressure: {data?.main.pressure}</p>
-                        <p>Visibility: {data?.visibility}</p>
-                        <p>Wind: {data?.wind.speed}</p>
+                        <p>Humidity: {weather?.main.humidity}</p>
+                        <p>Pressure: {weather?.main.pressure}</p>
+                        <p>Visibility: {weather?.visibility}</p>
+                        <p>Wind: {weather?.wind.speed}</p>
                     </div>
                 </main>
-                
             </>
         </div>
     )
