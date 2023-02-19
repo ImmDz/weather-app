@@ -1,11 +1,17 @@
 import { FC } from "react";
-import { getWeather } from "../../store/weather/selectors";
+import { getWeather, getStatus, getError } from "../../store/weather/selectors";
 import { useSelector } from "react-redux";
 import css from "./styles.module.css";
 
 
 export const Card: FC = () => {
     const weather = useSelector(getWeather);
+    const loadstatus = useSelector(getStatus);
+    const error = useSelector(getError);
+
+    if (loadstatus === "ERROR") {
+        return <h2>{error.message}</h2>
+    }
 
     return (
         <div className={css.container}>

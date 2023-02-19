@@ -2,13 +2,21 @@ import { FC, useState, useEffect, useCallback } from "react";
 import { Input, Card } from "./components";
 import { debounce } from "lodash";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchWeather } from "./store/weather/actionCreators";
-
+import { actions } from "./store/weather/slice";
 
 export const App: FC = () => {
   const [searchCity, setSearchCity] = useState<string>('London');
   const dispatch = useDispatch();
-  useEffect(() => dispatch(fetchWeather(searchCity) as any))
+
+  const fetchWeatherDeb = useCallback(
+    debounce((param) => dispatch(actions.getWeather(param) as any), 1_500),
+    [dispatch]
+  );
+
+  useEffect(() => {
+    fetchWeatherDeb(searchCity);
+
+  }, [searchCity])
   return (
     <div className="App">
       <Input
@@ -19,6 +27,3 @@ export const App: FC = () => {
     </div>
   );
 }
-
-
-// https://api.openweathermap.org/data/2.5/weather?appid=0f11ed7c3a60f593c7dc3911ce35d06a&q=${city}&units=metric`

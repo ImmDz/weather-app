@@ -30,10 +30,19 @@ export interface WeatherData {
 }
 
 export interface WeatherError {
-    cod: string;
+    // cod: string;
     message: string;
 }
 
-export interface WeatherStore {
+export interface WeatherState {
     weatherData: WeatherData | null;
+    loadstatus: LOAD_STATUSES;
+    error: WeatherError;
+}
+
+export enum LOAD_STATUSES {
+    UNKNOWN = "UNKNOWN",
+    ERROR = "ERROR",
+    LOADED = "LOADED",
+    LOADING = "LOADING"
 }
